@@ -1,0 +1,46 @@
+原生態
+在win7下python的xlrd和xlwt的安装于应用
+
+首先到http://pypi.python.org/pypi/xlwt 和http://pypi.python.org/pypi/xlrd下载xlwt-0.7.4.tar.gz和xlrd-0.7.7.tar.gz。
+
+第二把下载的两个.gz包解压，如我把它们解压到F：DOWNLOAD下。
+
+在win7下打开cmd,在命令行输入F：，切换到F盘，再cd DOWNLOAD\xlrd-0.7.7,
+
+最后 setup.py install.装完了。xlwt同理。
+
+应用
+
+（1）xlrd
+
+import xlrd
+
+filename = 'E:\lianxi\protein.xls'   
+
+data = xlrd.open-workbook(filename) 
+
+sheetname = data.sheet_names()
+
+sheet = data.sheet_by_index(0) 
+
+rows = sheet.nrows
+
+cols = sheet.ncols
+
+for row in range(rows):
+
+   value = sheet.row_values(row)
+
+   print value
+
+(2)xlwt
+
+import xlwt
+
+filename = xlwt.Workbook ()
+
+sheet = filename.add_sheet('name')
+
+sheet.write(0,0,'hao123')
+
+filename.save('test.xls')
