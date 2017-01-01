@@ -1,0 +1,59 @@
+（1）分别安装
+python-2.7.12.amd64.msi
+python-3.5.2-amd64.exe
+（python官网下载的）
+顺序无所谓（为了看着方便，我把安装路径修改统一了）
+
+
+（2）配置环境变量
+D:\p\Python\Python35\Scripts\;
+D:\p\Python\Python35\;
+D:\p\Python\Python27\Scripts\;
+D:\p\Python\Python27\
+
+
+（3）修改执行文件名称
+
+因为各自的pip.exe依赖于各自版本的python.exe，即：
+D:\p\Python\Python35\Scripts\pip3.exe （pip.exe、 pip3.5.exe、 pip3.exe其实是一个文件）
+依赖于 D:\p\Python\Python35\python.exe
+
+
+D:\p\Python\Python27\Scripts\pip2.exe （pip.exe、 pip2.7.exe、 pip2.exe其实是一个文件）
+依赖于 D:\p\Python\Python27\python.exe
+
+
+还有，"sublime text 2"开发平台，采用的也是环境变量中默认的"python.exe"（如果修改成python2.exe/python3.exe是无法识别的）
+
+
+故，可以(用哪个版本保留哪个版本。)：
+A：若要使用python 2版本(改掉python 3的exe)：
+（1）要想执行的"python"：
+保留"D:\p\Python\Python27\python.exe"。
+把另一个python 3版本"D:\p\Python\Python35\python.exe"重命名为“D:\p\Python\Python35\python3.exe”使其不干扰。
+则执行的"Python --version"即是 "python 2.7.12"
+
+（2）要想执行pip:
+上述保留python2.7.12版本，排除python3.5.2的干扰以后。
+直接cmd执行“pip2 --version” ，则版本是“pip 8.1.1 from d:\p\python\python27\lib\site-packages (python 2.7)”
+
+B：若要使用python 3版本(改掉python 2的exe)：
+（1）要想执行的"python"：
+保留"D:\p\Python\Python35\python.exe"。
+把另一个python 2版本"D:\p\Python\Python27\python.exe"重命名为“D:\p\Python\Python27\python2.exe”使其不干扰。
+则执行的"python"即是：“D:\p\Python\Python27\python.exe”  python3.5.2版本
+
+（2）要想执行pip:
+上述保留python3.5.2版本，排除python2.7.12的干扰以后。
+直接cmd执行“pip3 --version” ，则版本是“pip 8.1.1 from d:\p\python\python35\lib\site-packages (python 3.5)”
+
+
+注意：
+
+（以前网上的版本是推荐将不同的python.exe分别修改为python2.exe python3.exe，这样可以并存使用；
+
+然后各自依赖于它的pip，修改pip*.script.py中第一行调用python.exe的那一句，修改成对应的python（2/3）.exe;
+
+现在为什么没有采用，是因为现在的pip*.script.py不存在，而且调用python.exe好像还不止一个调用位置。
+再加上其他的开发平台要想识别python（2/3）也需要修改，挺麻烦的。
+不如保留默认的名称，用哪个版本保留哪个版本。)
