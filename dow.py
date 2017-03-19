@@ -1,0 +1,168 @@
+# coding = UTF-8
+
+import urllib2
+import re
+import os
+
+url_lst = [
+"http://10.136.243.33/ewebeditor/UploadFile/2017317105428696.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317105440192.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317105450719.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731710550242.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317105512483.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317105520679.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317105530269.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317105541292.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317105557482.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731710568176.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317105619216.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317105634593.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317105643387.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731710576650.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317105718156.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317134726590.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317105731856.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731710580557.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317145531159.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317145547462.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711219233.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711235587.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711247640.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711259222.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/20173171138831.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711318521.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711327713.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711343209.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711355784.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711412611.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711423839.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/20173171158836.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711521733.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711547541.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/20173171160114.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711611984.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711644499.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711936696.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711105250.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111019865.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111031201.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111048528.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711116527.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111132994.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111210556.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111230650.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111242685.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111259546.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111310327.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111326808.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111338978.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111350387.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711141590.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111414984.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111428346.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111439173.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111449681.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111459895.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111510347.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111521315.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317132849227.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111531993.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111540763.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111549568.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317145448544.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111557885.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711166911.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111615253.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111625377.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111644753.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711170847.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111712846.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111724537.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111735513.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111744878.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111754293.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711183526.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111817437.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111827560.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111841734.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111857638.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111910672.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111921604.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111934777.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111943981.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317111955664.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112010115.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112020593.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112032436.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112045569.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112055323.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711218373.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112118213.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112127455.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112139697.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112148691.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112157396.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711225492.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112215204.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112225668.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112234852.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317133640889.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711285344.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112817916.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112828417.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112838263.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112850964.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711292183.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112923195.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112934825.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317112944866.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711309729.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317113027343.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317113043401.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711310467.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317113110528.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317113121391.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317113136146.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317113147991.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711321464.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317113212226.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317113221522.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317113231851.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317113242281.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317113253901.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731711334192.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317113318827.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317113333244.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317132532511.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317132544985.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317132555962.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731713267659.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317132619321.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317132634521.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/2017317132649327.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731713270189.pdf",
+"http://10.136.243.33/ewebeditor/UploadFile/201731713280914.pdf"]
+
+
+def getFile(url):
+    file_name = url.split('/')[-1]
+    u = urllib2.urlopen(url)
+    f = open(file_name, 'wb')
+
+    block_sz = 8192
+    while True:
+        buffer = u.read(block_sz)
+        if not buffer:
+            break
+
+        f.write(buffer)
+    f.close()
+    print "Sucessful to download" + " " + file_name
+
+
+os.mkdir('ownload')
+os.chdir(os.path.join(os.getcwd(), 'ownload'))
+
+	
+for url in url_lst[:]:
+    getFile(url)
